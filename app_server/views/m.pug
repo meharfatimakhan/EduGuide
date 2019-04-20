@@ -1,0 +1,143 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title form-v1 by Colorlib
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+ 
+    link(rel='stylesheet', type='text/css', href='css/opensans-font.css')
+    link(rel='stylesheet', type='text/css', href='fonts/material-design-iconic-font/css/material-design-iconic-font.min.css')
+ 
+    link(rel='stylesheet', href='css/style.css')
+  body
+    .page-content
+      .form-v1-content
+        .wizard-form
+          form.form-register(action='#', method='post')
+            #form-total
+            
+              h2
+                p.step-icon
+                  span 01
+                span.step-text Peronal Infomation
+              section
+                .inner
+                  .wizard-header
+                    h3.heading Peronal Infomation
+                    p
+                      | Please enter your infomation and proceed to the next step so we can build your accounts.
+                  .form-row
+                    .form-holder
+                      fieldset
+                        legend First Name
+                        input#first-name.form-control(type='text', name='first-name', placeholder='First Name', required='')
+                    .form-holder
+                      fieldset
+                        legend Last Name
+                        input#last-name.form-control(type='text', name='last-name', placeholder='Last Name', required='')
+                  .form-row
+                    .form-holder.form-holder-2
+                      fieldset
+                        legend Your Email
+                        input#your_email.form-control(type='text', name='your_email', pattern='[^@]+@[^@]+.[a-zA-Z]{2,6}', placeholder='example@email.com', required='')
+                  .form-row
+                    .form-holder.form-holder-2
+                      fieldset
+                        legend Phone Number
+                        input#phone.form-control(type='text', name='phone', placeholder='+1 888-999-7777', required='')
+                  .form-row.form-row-date
+                    .form-holder.form-holder-2
+                      label.special-label Birth Date:
+                      select#month(name='month')
+                        option(value='MM', disabled='', selected='') MM
+                        option(value='16') 16
+                        option(value='17') 17
+                        option(value='18') 18
+                        option(value='19') 19
+                      select#date(name='date')
+                        option(value='DD', disabled='', selected='') DD
+                        option(value='Feb') Feb
+                        option(value='Mar') Mar
+                        option(value='Apr') Apr
+                        option(value='May') May
+                      select#year(name='year')
+                        option(value='YYYY', disabled='', selected='') YYYY
+                        option(value='2017') 2017
+                        option(value='2016') 2016
+                        option(value='2015') 2015
+                        option(value='2014') 2014
+                        option(value='2013') 2013
+                  .form-row
+                    .form-holder.form-holder-2
+                      input#ssn.form-control.input-border(type='text', name='ssn', placeholder='SSN', required='')
+             
+              h2
+                p.step-icon
+                  span 02
+                span.step-text Connect Bank Account
+              section
+                .inner
+                  .wizard-header
+                    h3.heading Connect Bank Account
+                    p
+                      | Please enter your infomation and proceed to the next step so we can build your accounts.
+                  .form-row
+                    .form-holder.form-holder-1
+                      input#find_bank.form-control(type='text', name='find_bank', placeholder='Find Your Bank', required='')
+                  .form-row-total
+                    .form-row
+                      .form-holder.form-holder-2.form-holder-3
+                        input#bank-1.radio(type='radio', name='bank-1', value='bank-1', checked='')
+                        label.bank-images.label-above.bank-1-label(for='bank-1')
+                          img(src='images/form-v1-1.png', alt='bank-1')
+                        input#bank-2.radio(type='radio', name='bank-2', value='bank-2')
+                        label.bank-images.label-above.bank-2-label(for='bank-2')
+                          img(src='images/form-v1-2.png', alt='bank-2')
+                        input#bank-3.radio(type='radio', name='bank-3', value='bank-3')
+                        label.bank-images.label-above.bank-3-label(for='bank-3')
+                          img(src='images/form-v1-3.png', alt='bank-3')
+                    .form-row
+                      .form-holder.form-holder-2.form-holder-3
+                        input#bank-4.radio(type='radio', name='bank-4', value='bank-4')
+                        label.bank-images.bank-4-label(for='bank-4')
+                          img(src='images/form-v1-4.png', alt='bank-4')
+                        input#bank-5.radio(type='radio', name='bank-5', value='bank-5')
+                        label.bank-images.bank-5-label(for='bank-5')
+                          img(src='images/form-v1-5.png', alt='bank-5')
+                        input#bank-6.radio(type='radio', name='bank-6', value='bank-6')
+                        label.bank-images.bank-6-label(for='bank-6')
+                          img(src='images/form-v1-6.png', alt='bank-6')
+              // SECTION 3
+              h2
+                p.step-icon
+                  span 03
+                span.step-text Set Financial Goals
+              section
+                .inner
+                  .wizard-header
+                    h3.heading Set Financial Goals
+                    p
+                      | Please enter your infomation and proceed to the next step so we can build your accounts.
+                  .form-row
+                    .form-holder.form-holder-2
+                      input#plan-1.radio(type='radio', name='radio1', value='plan-1')
+                      label.plan-icon.plan-1-label(for='plan-1')
+                        img(src='images/form-v1-icon-2.png', alt='pay-1')
+                      .plan-total
+                        span.plan-title Specific Plan
+                        p.plan-text Pellentesque nec nam aliquam sem et volutpat consequat mauris nunc congue nisi.
+                      input#plan-2.radio(type='radio', name='radio1', value='plan-2')
+                      label.plan-icon.plan-2-label(for='plan-2')
+                        img(src='images/form-v1-icon-2.png', alt='pay-1')
+                      .plan-total
+                        span.plan-title Medium Plan
+                        p.plan-text Pellentesque nec nam aliquam sem et volutpat consequat mauris nunc congue nisi.
+                      input#plan-3.radio(type='radio', name='radio1', value='plan-3', checked='')
+                      label.plan-icon.plan-3-label(for='plan-3')
+                        img(src='images/form-v1-icon-3.png', alt='pay-2')
+                      .plan-total
+                        span.plan-title Special Plan
+                        p.plan-text Pellentesque nec nam aliquam sem et volutpat consequat mauris nunc congue nisi.
+    script(src='js/jquery-3.3.1.min.js')
+    script(src='js/jquery.steps.js')
+    script(src='js/main.js')
