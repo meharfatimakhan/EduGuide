@@ -50,7 +50,7 @@ Open terminal.
 
 Write command: **npm install -g express**
 
-Now check whether it installed correctly or not by writing: **express –version**
+Now check whether it installed correctly or not by writing: **express –v**
 
 ### Installing MongoDB 
 
