@@ -5,7 +5,7 @@
 Web-based Application in Node.js
 
 ## ABOUT
-Find the latest educational resources for all universities! Search and upload quizzes, assignments, and past papers for any university, any department, any course in Pakistan.
+Find the latest educational resources for all universities! Search and upload quizzes, assignments, and past papers for any university, any department, any course.
 
 ## FUNCTIONALITIES
 * User can sign up /login	
