@@ -1,16 +1,13 @@
 # EduGuide
 
-# FRAMEWORK
+
+## FRAMEWORK
 Web-based Application in Node.js
 
-***
-
-# ABOUT
+## ABOUT
 Find the latest educational resources for all universities! Search and upload quizzes, assignments, and past papers for any university, any department, any course in Pakistan.
 
-***
-
-# FUNCTIONALITIES
+## FUNCTIONALITIES
 * User can sign up /login	
 * User can view his profile
 * User can edit his profile
@@ -23,9 +20,9 @@ Find the latest educational resources for all universities! Search and upload qu
 * User is assigned a rank
 * User’s money increases on the number of contributions
 
-***
+## HOW TO SET UP ENVIRONMENT
 
-# HOW TO SET UP ENVIRONMENT
+### Installing Node.js and npm 
 
 Visit nodejs.org
 
@@ -39,10 +36,21 @@ Open the terminal or command prompt.
 
 Now check whether nodejs installed properly or not:
 
-Type => node -v
+Write: node -v
 
 This will give the version of node if it installed correctly.
 
-Type => npm -v
+Write: npm -v
 
 This will give the version of node package manager.
+
+### Installing Express globally 
+
+Open terminal.
+
+Write command: npm install -g express
+
+Now check whether it installed correctly or not by writing: express –version
+
+### Installing MongoDB 
+
