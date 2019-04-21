@@ -24,7 +24,7 @@ Find the latest educational resources for all universities! Search and upload qu
 
 ### Installing Node.js and npm 
 
-Visit nodejs.org
+Visit _nodejs.org_
 
 Download the LTS Version.
 
@@ -36,11 +36,11 @@ Open the terminal or command prompt.
 
 Now check whether nodejs installed properly or not:
 
-Write: node -v
+Write: **node -v**
 
 This will give the version of node if it installed correctly.
 
-Write: npm -v
+Write: **npm -v**
 
 This will give the version of node package manager.
 
@@ -48,9 +48,9 @@ This will give the version of node package manager.
 
 Open terminal.
 
-Write command: npm install -g express
+Write command: **npm install -g express**
 
-Now check whether it installed correctly or not by writing: express –version
+Now check whether it installed correctly or not by writing: **express –version**
 
 ### Installing MongoDB 
 
