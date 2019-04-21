@@ -33,55 +33,51 @@ module.exports.getCourse = function (req, res) {
                 });
                 return;
             } else if (err) {
-                console.log(err);
-                sendJSONresponse(res, 404, err);
+                //console.log(err);
+                //    sendJSONresponse(res, 404, err);
                 return;
             }
-
-
-            var result = currentUniv.map(a => a.departments)
-            var i;
-            for (i = 0; i < result.length; i++) {
-                dept.find({ _id: result[i] }).exec(function (err, univDept) {
-                    if (!univDept) {
-                        console.log('no such univ found');
-                        sendJSONresponse(res, 404, {
-                            message: "univ not found"
-                        });
-                        return;
-                    } else if (err) {
-                        console.log(err);
-                        sendJSONresponse(res, 404, err);
-                        return;
-                    }
-
-
-                    var result2 = univDept.map(a => a.courses)
-                    console.log("ciu" + result2);
-                    var j;
-                    for (j = 0; j < result2.length; j++) {
-                        subj.find({ _id: result2[j] }).exec(function (err, courseDept) {
-                            if (!courseDept) {
-                                console.log('no such course found');
-                                sendJSONresponse(res, 404, {
-                                    message: "course not found"
-                                });
-                                return;
-                            } else if (err) {
-                                console.log(err);
-                                sendJSONresponse(res, 404, err);
-                                return;
-                            }
-                            console.log("c" + courseDept);
-                            res.render("Course", {
-                                universityCourses: courseDept,
-                                userID: req.session.userId
+            // var result = currentUniv.map(a => a.departments)//gives departments in university
+            // var i;
+            // for (i = 0; i < result.length; i++) {
+            dept.find({ _id: req.params.departmentid }).exec(function (err, univDept) {
+                if (!univDept) {
+                    console.log('no such univ found');
+                    sendJSONresponse(res, 404, {
+                        message: "Department not found!"
+                    });
+                    return;
+                } else if (err) {
+                    console.log(err);
+                    sendJSONresponse(res, 404, err);
+                    return;
+                }             
+                var result = univDept.map(a => a.courses)//gives courses in department
+                var j;
+                for (j = 0; j < result.length; j++) {
+                    subj.find({ _id: result[j] }).exec(function (err, courseDept) {
+                        if (!courseDept) {
+                            console.log('no such course found');
+                            sendJSONresponse(res, 404, {
+                                message: "Course not found!"
                             });
-                        })
-                    }
+                            return;
+                        } else if (err) {
+                            console.log(err);
+                            sendJSONresponse(res, 404, err);
+                            return;
+                        }
+                        res.render("Course", {
+                            universityCourses: courseDept,
+                            userID: req.session.userId,
+                            uniID: req.params.universityid
+                        });
 
-                });
-            }
+                    })
+                }
+
+            });
+            //  }
 
         });
 

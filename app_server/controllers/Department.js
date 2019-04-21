@@ -50,8 +50,6 @@ module.exports.getDepartment = function (req, res) {
             sendJSONresponse(res, 404, err);
             return;
           }
-         
-          
           res.render("Department", {
               universityDepartments:univDept,
               userID:req.session.userId

@@ -19,7 +19,7 @@ html(lang='en')
       /*background-image: url('img/Influenza.jpg');*/
       background-attachment:fixed;
       background-repeat: no-repeat;
-      background:url('img/bb3.jpg');
+      background:url('/img/bb3.jpg');
       }
       .navbar {
       overflow: visible;
@@ -30,7 +30,7 @@ html(lang='en')
         box-sizing: border-box;
       }   
      #myInput {
-     background-image: url('img/search.png');
+     background-image: url('/img/search.png');
      background-position: 10px 12px;
      background-repeat: no-repeat;
      width: 100%;
@@ -39,6 +39,31 @@ html(lang='en')
      border: 1px solid #ddd;
      margin-bottom: 12px;
      }
+     ul.breadcrumb {
+      padding: 10px 16px;
+      list-style: none;
+      background-color: black;
+      opacity: 0.4;
+     }
+      ul.breadcrumb li {
+      display: inline;
+      font-size: 18px;
+      color: white;
+     }
+     ul.breadcrumb li+li:before {
+      padding: 8px;
+      color: white;
+      content: "/\00a0";
+     }
+     ul.breadcrumb li a {
+      color: #0275d8;
+      text-decoration: none;
+     }
+     ul.breadcrumb li a:hover {
+      color: #42b9f4;
+      text-decoration: underline;
+     }
+
 
     script.
         function myFunction() {
@@ -93,9 +118,16 @@ html(lang='en')
     section#portfolio.content-section
       .container
         .content-section-heading.text-center
-          h1.mb-1(style="color:#4db8ff;display:inline-block") COURSES
+          h1.mb-1(style="color:white;display:inline-block") COURSES
           br
           br
+          ul.breadcrumb
+            li
+              a(href='/university') UNIVERSITY
+            li
+              a(href="/university/"+ uniID + "/department") DEPARTMENT
+            li COURSES
+          
           input#myInput(type='text', onkeyup='myFunction()', placeholder='Enter Course', title='Type in a name')
           br
           br

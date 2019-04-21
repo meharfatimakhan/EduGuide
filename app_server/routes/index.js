@@ -30,11 +30,13 @@ router.get("/logout", ctrlLogin.logout);
 router.get("/signup", ctrlSignUp.signUp);
 router.post("/signup", upload.single('profilePicture'), ctrlSignUp.createAccount);
 
-router.get("/university",ctrlUniversity.viewAll,ctrlUniversity.checkLogin);
+router.get("/university",ctrlUniversity.getUniversity,ctrlUniversity.checkLogin);
 
 router.get("/university/:universityid/department",ctrlDepartment.getDepartment,ctrlDepartment.checkLogin);
 
 router.get("/university/:universityid/department/:departmentid/course",ctrlCourse.getCourse,ctrlCourse.checkLogin);
+
+router.get("/university/:universityid/department/:departmentid/course/:courseid",ctrlDocument.getDocument,ctrlDocument.checkLogin);
 
 router.get("/profile/:profileid",ctrlProfile.viewProfile,ctrlProfile.checkLogin);
 
