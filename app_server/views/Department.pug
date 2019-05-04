@@ -120,8 +120,9 @@ html(lang='en')
           br
           ul.breadcrumb
             li
-              a(href="/university") UNIVERSITY
-            li DEPARTMENTS         
+              a(href="/university") UNIVERSITY: 
+                =uniName
+            li DEPARTMENTS     
           input#myInput(type='text', onkeyup='myFunction()', placeholder='Enter Department', title='Type in a name')
           br
           br

@@ -30,7 +30,8 @@ var UserSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String
-  }
+  },
+  savedDocuments: { type: [String] }
 });
 
 //authenticate input against database

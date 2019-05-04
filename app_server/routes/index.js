@@ -38,16 +38,17 @@ router.get("/university/:universityid/department", ctrlDepartment.checkLogin, ct
 router.get("/university/:universityid/department/:departmentid/course", ctrlCourse.checkLogin, ctrlCourse.getCourse);
 router.get("/university/:universityid/department/:departmentid/course/:courseid/documents",ctrlDocument.checkLogin,ctrlDocument.getDocument);
 router.get("/document/:documentID",ctrlDocument.checkLogin,ctrlDocument.getDocumentDetail);
-
+router.post("/document/:documentID",ctrlDocument.checkLogin,ctrlDocument.saveDocument);
+router.get("/saved",ctrlDocument.checkLogin,ctrlDocument.getSavedDocument)
 
 router.get("/upload",ctrlUpload.checkLogin,ctrlUpload.uploadPage);
 router.post("/upload",upload.single('docPicture'),ctrlUpload.docCreate);
 router.get("/departName/:deptID/courseName", ctrlUpload.getCourse);
-
 
 router.get("/profile/:profileid", ctrlProfile.checkLogin, ctrlProfile.viewProfile);
 router.get("/edit", ctrlEditProfile.checkLogin, ctrlEditProfile.edit);
 router.put("/edit", upload.single('profilePicture'), ctrlEditProfile.updateProfile);
 router.put("/edit?_method=put", upload.single('profilePicture'), ctrlEditProfile.updateProfile);
 router.get("/uniNamee/:uniID/deptName", ctrlEditProfile.getDepartment); 
+
 module.exports = router;

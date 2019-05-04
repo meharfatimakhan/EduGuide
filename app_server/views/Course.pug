@@ -121,9 +121,11 @@ html(lang='en')
           br
           ul.breadcrumb
             li
-              a(href='/university') UNIVERSITY
+              a(href='/university') UNIVERSITY:  
+                =uniName
             li
-              a(href="/university/"+ uniID + "/department") DEPARTMENT
+              a(href="/university/"+ uniID + "/department") DEPARTMENT:  
+                =deptName
             li COURSES
           
           input#myInput(type='text', onkeyup='myFunction()', placeholder='Enter Course', title='Type in a name')
@@ -134,7 +136,7 @@ html(lang='en')
           -var index=0;
           each entry in universityCourses
             .col-lg-12
-              a.portfolio-item(href="/university/"+ entry.university + "/department/" + entry.department + "/course/" + entry._id)
+              a.portfolio-item(href="/university/"+ entry.university + "/department/" + entry.department + "/course/" + entry._id + "/documents")
                 span.caption
                   span.caption-content
                     h1

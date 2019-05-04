@@ -4,6 +4,7 @@ var document = mongoose.model("Documents")
 var dept = mongoose.model("Departments");
 var univ = mongoose.model("Universities");
 var subj = mongoose.model("Courses");
+mongoose.set('useFindAndModify', false)
 
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
@@ -30,12 +31,13 @@ module.exports.uploadPage = function (req, res) {
             subj.find({ department: req.session.departmentName }).exec(function (err, myCourse) {
                 var nameOfUni = allUnis.map(a => a.universityName);
                 var nameOfDept = allDepts.map(a => a.departmentName);
-                console.log(nameOfUni+" "+nameOfDept)
+                console.log(nameOfUni + " " + nameOfDept)
                 res.render('Upload', {
                     uploader: req.session.userName,
                     universityName: nameOfUni,
                     departmentName: nameOfDept,
-                    saarayCourse: myCourse
+                    saarayCourse: myCourse,
+                    userID: req.session.userId
                 });
             });
         });
@@ -58,12 +60,26 @@ module.exports.docCreate = function (req, res) {
                 console.log(err);
                 return;
             } else {
-                console.log(created);
+                console.log("Created Document: " + created);
+                console.log("cCOurse" + created.course)
+                console.log("cID"+created._id)
+
+                subj.findByIdAndUpdate(created.course, {
+                    $push: { documents: created._id }
+                },
+                    { upsert: true },
+                    function (err, updatedCourse) {
+                        if (err) return res.status(500).send(err);
+                        console.log("updated course: "+ updatedCourse)
+                    }
+
+                );
                 res.redirect("/profile/" + req.session.userId);
             }
         }
     );
 };
+  
 
 module.exports.getCourse = function (req, res) {
     var selecteddept = req.params.deptID;

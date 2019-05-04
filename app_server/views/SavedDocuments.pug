@@ -1,0 +1,157 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title EduGuide - Your study pal!
+    
+    link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='icon', type='image/ico', href='/img/logo.png')
+    link(href='/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
+    link(href='/vendor/simple-line-icons/css/simple-line-icons.css', rel='stylesheet')
+   
+    link(href='/css/stylish-portfolio.min.css', rel='stylesheet')
+    style.
+      .backgroundRest{
+      background-attachment:fixed;
+      background-repeat: no-repeat;
+      background:url('/img/bb3.jpg');
+      }
+      .navbar {
+      overflow: visible;
+      background-color: black;
+      opacity: 0.8;
+      }
+     * {
+        box-sizing: border-box;
+      }   
+     #myInput {
+     background-image: url('/img/search.png');
+     background-position: 10px 12px;
+     background-repeat: no-repeat;
+     width: 100%;
+     font-size: 16px;
+     padding: 12px 20px 12px 40px;
+     border: 1px solid #ddd;
+     margin-bottom: 12px;
+     }
+     ul.breadcrumb {
+      padding: 10px 16px;
+      list-style: none;
+      background-color: black;
+      opacity: 0.4;
+     }
+      ul.breadcrumb li {
+      display: inline;
+      font-size: 18px;
+      color: white;
+     }
+     ul.breadcrumb li+li:before {
+      padding: 8px;
+      color: white;
+      content: "/\00a0";
+     }
+     ul.breadcrumb li a {
+      color: #0275d8;
+      text-decoration: none;
+     }
+     ul.breadcrumb li a:hover {
+      color: #42b9f4;
+      text-decoration: underline;
+     }
+     iframe {
+      position: relative;
+      padding-bottom: 15%;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      /*-moz-border-radius: 12px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      -moz-box-shadow: 4px 4px 14px #000;
+      -webkit-box-shadow: 4px 4px 14px #000;
+      box-shadow: 4px 4px 14px #000;*/
+      } 
+    script.
+        function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("searchThis");
+        li = ul.getElementsByTagName("a");
+        for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("h1")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+        } else {
+        li[i].style.display = "none";
+        }
+        }
+        }
+
+  body#page-top.backgroundRest
+    nav.navbar.fixed-top.navbar-expand-lg.navbar-light.bg-dark.fixed-top
+      .container
+        a.navbar-brand.js-scroll-trigger(href='/university')
+          img.img-fluid.rounded-circle(src='/img/logo32.png', alt='EduGuide Logo')
+        b
+          a.navbar-brand.js-scroll-trigger(href='/university') EDUGUIDE
+        button.navbar-toggler.navbar-toggler-right(style="color:white",type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarResponsive.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li.nav-item
+              b
+                a.nav-link(href='/university') DASHBOARD
+            li.nav-item.dropdown
+              b
+                a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | DOCUMENTS
+                .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdownPortfolio')
+                  a.dropdown-item(href='/upload') UPLOAD
+                  a.dropdown-item(href='/saved') SAVED 
+            li.nav-item.dropdown
+              b
+                a#navbarDropdownBlog.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | PROFILE
+                .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdownBlog')
+                  a.dropdown-item(href='/profile/'+userID) MY PROFILE
+                  a.dropdown-item(href='/edit') EDIT PROFILE
+            li.nav-item
+              b
+                a.nav-link(href='/') LOGOUT            
+
+    section#portfolio.content-section
+      .container
+        .content-section-heading.text-center
+          h1.mb-1(style="color:white;display:inline-block") SAVED DOCUMENTS
+          br
+          br
+          
+        .row.no-gutters
+          -var index=0;
+          each entry in saved
+            .col-lg-12
+              a(href="/document/"+entry._id)
+                span.caption(style="color:white")
+                  span.caption-content
+                    h3
+                      b
+                        =entry.documentName
+                    p.mb-0 COURSE:   
+                      |  
+                      =entry.course
+                iframe(src="/images/"+ entry.path, type='application/pdf', width='100%', height='100%',style="display:inline-block",frameborder="0",marginheight='0', marginwidth='0')
+                br
+          -index++;
+    
+    a.scroll-to-top.rounded.js-scroll-trigger(href='#page-top')
+      i.fas.fa-angle-up
+    
+    script(src='/vendor/jquery/jquery.min.js')
+    script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+    script(src='/vendor/jquery-easing/jquery.easing.min.js')
+    script(src='/js/stylish-portfolio.min.js')

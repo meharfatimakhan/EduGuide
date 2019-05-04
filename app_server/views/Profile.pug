@@ -28,23 +28,7 @@ html(lang='en')
      * {
         box-sizing: border-box;
       }   
-      .mydiv {
-      height:80%;
-      width: 80%;
-      overflow: hidden;
-      image-orientation: from-image;
-      
-     }
-     #myInput {
-     background-image: url('/img/search.png');
-     background-position: 10px 12px;
-     background-repeat: no-repeat;
-     width: 100%;
-     font-size: 16px;
-     padding: 12px 20px 12px 40px;
-     border: 1px solid #ddd;
-     margin-bottom: 12px;
-     }
+
      .bg-light{
          opacity: 0.9;
      }
@@ -57,6 +41,24 @@ html(lang='en')
       overflow: hidden;
       image-orientation: from-image;
      }
+     .docDiv{
+       overflow:visible;
+       height:100%;
+       width: 100%;
+     }
+     iframe {
+      position: relative;
+      padding-bottom: 35%;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      /*-moz-border-radius: 12px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      -moz-box-shadow: 4px 4px 14px #000;
+      -webkit-box-shadow: 4px 4px 14px #000;
+      box-shadow: 4px 4px 14px #000;*/
+      
+      } 
   body#page-top.backgroundRest
     nav.navbar.fixed-top.navbar-expand-lg.navbar-light.bg-dark.fixed-top
       .container
@@ -173,6 +175,7 @@ html(lang='en')
                       -var index=0;
                       each entry in myUps
                         .col-md-6
+
                           a.portfolio-item(href="/document/"+ entry._id)
                             span.caption
                               span.caption-content
@@ -182,9 +185,18 @@ html(lang='en')
                                 p.mb-0 UPLOADER: 
                                   |  
                                   =fullName
-                            img.img-fluid.rounded.mx-auto.d-block(src="/images/"+entry.path, alt='')
-                            br
+                            .docDiv
+                              iframe(src="/images/"+entry.path, type='application/pdf', width='100%', height='100%',style="display:inline-block",frameborder="0",marginheight='0', marginwidth='0')        
+                              br
+                            section
+                            
                       -index++;
+                    br
+                    br
+                    br
+                    
+                   
+                    
 
     
     a.scroll-to-top.rounded.js-scroll-trigger(href='#page-top')

@@ -37,6 +37,7 @@ module.exports.getDepartment = function (req, res) {
           return;
         }
         var result=currentUniv.map(a => a.departments)
+        var uniNamee=currentUniv.map(a => a.universityName)
         var i;
         for (i = 0; i < result.length; i++) {
         dept.find({ _id: result[i] }).exec(function (err, univDept) {
@@ -53,6 +54,7 @@ module.exports.getDepartment = function (req, res) {
           }
           res.render("Department", {
               universityDepartments:univDept,
+              uniName: uniNamee,
               userID:req.session.userId
             }
       );

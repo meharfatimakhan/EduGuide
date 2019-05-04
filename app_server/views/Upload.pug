@@ -77,7 +77,7 @@ html(lang='en')
                 a#navbarDropdownBlog.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | PROFILE
                 .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdownBlog')
-                  a.dropdown-item(href='/profile/'+userID) MY PROFILE
+                  a.dropdown-item(href='/profile/'+ userID) MY PROFILE
                   a.dropdown-item(href='/edit') EDIT PROFILE
             li.nav-item
               b
@@ -96,8 +96,8 @@ html(lang='en')
               h2.form-title 
               .form-group(align='center')
                 br
-                input#upload(name='docPicture',type='file')
-                a#uploadMyFile1.form-submit(href='') UPLOAD PICTURE
+                input#upload(name='docPicture',type='file',accept='application/pdf')
+                a#uploadMyFile1.form-submit(href='') UPLOAD DOCUMENT
                 br
                 br
               .form-group

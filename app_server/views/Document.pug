@@ -123,51 +123,99 @@ html(lang='en')
           br
           ul.breadcrumb
             li
-              a(href='/university') UNIVERSITY
+              a(href='/university') UNIVERSITY: 
+                =uniName
             li
-              a(href="/university/"+ uniID + "/department") DEPARTMENT
+              a(href="/university/"+ uniID + "/department") DEPARTMENT: 
+                =deptName
             li
-              a(href="/university/"+ uniID + "/department/"+departmentid+"/course/"+courseid+"/documents") COURSE
+              a(href="/university/"+ uniID + "/department/"+ departmentid +"/course") COURSE: 
+                =courseName
             li DOCUMENTS
           br
           br
 
         
-        .container.bg-light     
-            h2 Accordion Example
+        .container.bg-light  
+            br     
             #accordion.panel-group
                 .panel.panel-default
                 .panel-heading
-                    h4.panel-title
+                    h2.panel-title
                     .bg-light
                         a(data-toggle='collapse', data-parent='#accordion', href='#collapse1') QUIZZES
+                        hr
                 #collapse1.panel-collapse.collapse.in
                     .panel-body
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    | sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                hr
+                      -var index=0;
+                      each entry in documents
+                        if (entry.type.toString()=="Quiz")
+                          .col-lg-12
+                            a(href="/document/"+entry._id)
+                              span.caption(style="color:#4db8ff")
+                                span.caption-content
+                                  h3
+                                    b
+                                      =entry.documentName
+                                  p.mb-0 UPLOADER:   
+                                    |  
+                                    =name
+                              iframe(src="/images/"+ entry.path, type='application/pdf', width='100%', height='100%')
+                              br
+                              hr
+                      -index++;
+                
                 .panel.panel-default
                 .panel-heading
-                    h4.panel-title
+                    h2.panel-title
                     a(data-toggle='collapse', data-parent='#accordion', href='#collapse2') ASSIGNMENTS
+                    hr
                 #collapse2.panel-collapse.collapse
                     .panel-body
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    | sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                hr
+                      -var index2=0;
+                        each entry in documents
+                          if (entry.type.toString()=="Assignment")
+                            .col-lg-12
+                              a(href="/document/"+entry._id)
+                                span.caption(style="color:#4db8ff")
+                                  span.caption-content
+                                    h3
+                                      b
+                                        =entry.documentName
+                                    p.mb-0 UPLOADER:   
+                                      |  
+                                      =name
+                                iframe(src="/images/"+ entry.path, type='application/pdf', width='100%', height='100%')
+                                br
+                                hr
+                        -index2++;
+                
                 .panel.panel-default
                 .panel-heading
-                    h4.panel-title
+                    h2.panel-title
                     a(data-toggle='collapse', data-parent='#accordion', href='#collapse3') PAST PAPERS
+                    hr
                 #collapse3.panel-collapse.collapse
                     .panel-body
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    | sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                hr
-
+                      -var index3=0;
+                          each entry in documents
+                            if (entry.type.toString()=="Past Paper")
+                              .col-lg-12
+                                a(href="/document/"+entry._id)
+                                  span.caption(style="color:#4db8ff")
+                                    span.caption-content
+                                      h3
+                                        b
+                                          =entry.documentName
+                                      p.mb-0 UPLOADER:   
+                                        |  
+                                        =name
+                                  iframe(src="/images/"+ entry.path, type='application/pdf', width='100%', height='100%')
+                                  br
+                                  hr
+                          -index3++;
+                br
+                
             
     section#contact.map
       iframe(width='100%', height='100%', frameborder='0', scrolling='no', marginheight='0', marginwidth='0', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.5690695956723!2d74.30183217906031!3d31.48103838708532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903f08ebc7e8b%3A0x47e934f4cd34790!2sFAST+NUCES!5e0!3m2!1sen!2s!4v1555166192960!5m2!1sen!2s')

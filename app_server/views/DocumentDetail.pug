@@ -28,15 +28,16 @@ html(lang='en')
      * {
         box-sizing: border-box;
       }   
-     #myInput {
-     background-image: url('img/search.png');
-     background-position: 10px 12px;
-     background-repeat: no-repeat;
-     width: 100%;
-     font-size: 16px;
-     padding: 12px 20px 12px 40px;
-     border: 1px solid #ddd;
-     margin-bottom: 12px;
+     .btn {
+      background-color: #3e81c4;
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+     }
+     .btn:hover {
+      background-color: #ccdefc;
      }
 
     script.
@@ -99,9 +100,19 @@ html(lang='en')
           
         .row
             .col-md-8
-                img.img-fluid(src=path, alt='')
+                iframe(src=path, type='application/pdf', width='100%', height='200%')
                 br
             .col-md-4
+                .mydivv(style="display:inline")
+                  a(href=path, download='')
+                    button.btn(style="display:inline")
+                      i.fa.fa-download
+                      |  Download
+                  form.form-horizontal(method="POST",action="/document/"+ docID,role="form")
+                    br
+                    button.btn(type='submit',name='submit',value='SAVE',style="color:white;display:inline")
+                      i.fa.fa-save
+                      |  Save File
                 h6.my-3(style="color:#ffe6ff") TYPE: 
                   span(style="color:white")
                     = type        
@@ -125,7 +136,15 @@ html(lang='en')
                 h6.my-3(style="color:#ffe6ff") COURSE: 
                   span(style="color:white")
                     = courseName       
-                       
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        br
+        br
           
     section#contact.map
       iframe(width='100%', height='100%', frameborder='0', scrolling='no', marginheight='0', marginwidth='0', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.5690695956723!2d74.30183217906031!3d31.48103838708532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903f08ebc7e8b%3A0x47e934f4cd34790!2sFAST+NUCES!5e0!3m2!1sen!2s!4v1555166192960!5m2!1sen!2s')

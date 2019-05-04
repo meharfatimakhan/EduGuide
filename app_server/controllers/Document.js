@@ -5,6 +5,10 @@ var subj = mongoose.model("Courses");
 var docs = mongoose.model("Documents");
 var User = mongoose.model("User");
 
+var sendJSONresponse = function (res, status, content) {
+    res.status(status);
+    res.json(content);
+};
 
 module.exports.checkLogin = function requiresLogin(req, res, next) {
     if (req.session && req.session.userId) {
@@ -73,12 +77,34 @@ module.exports.getDocument = function (req, res) {
                                 sendJSONresponse(res, 404, err);
                                 return;
                             }
-                            res.render("Document", {
-                                documents: myDocs,
-                                userID: req.session.userId,
-                                departmentid: req.params.departmentid,
-                                courseid: req.params.courseid,
-                                uniID: req.params.universityid
+                            var uploader = myDocs.map(a => a.uploader);
+                            User.find({ _id: uploader }).exec(function (err, uploaderDetails) {
+                                if (!uploaderDetails) {
+                                    console.log('No such user found!');
+                                    sendJSONresponse(res, 404, {
+                                        message: "User not found!"
+                                    });
+                                    return;
+                                } else if (err) {
+                                    console.log(err);
+                                    sendJSONresponse(res, 404, err);
+                                    return;
+                                }
+                                var uploaderName = uploaderDetails.map(a => a.username);
+                                var departName = univDept.map(a => a.departmentName)
+                                var univName = currentUniv.map(a => a.universityName)
+                                var cName = courseDept.map(a => a.courseName);
+                                res.render("Document", {
+                                    documents: myDocs,
+                                    userID: req.session.userId,
+                                    deptName: departName,
+                                    uniName: univName,
+                                    courseName: cName,
+                                    name: uploaderName,
+                                    departmentid: req.params.departmentid,
+                                    courseid: req.params.courseid,
+                                    uniID: req.params.universityid
+                                });
                             });
                         })
                     }
@@ -120,11 +146,13 @@ module.exports.getDocumentDetail = function (req, res) {
                                         var nameOfCourse = myCourse.map(a => a.courseName);
                                         var userName = uploaderUser.map(a => a.username);
                                         console.log(nameOfUni + " " + nameOfDept);
+                                        console.log("mydoc saving.." + myDoc._id)
                                         res.render('DocumentDetail', {
                                             uploader: userName,
                                             uploaderID: myDoc.uploader,
                                             documentName: myDoc.documentName,
                                             type: myDoc.type,
+                                            docID: myDoc._id,
                                             courseName: nameOfCourse,
                                             path: "/images/" + myDoc.path,
                                             universityName: nameOfUni,
@@ -146,3 +174,76 @@ module.exports.getDocumentDetail = function (req, res) {
         });
     }
 }
+
+module.exports.saveDocument = function (req, res) {
+    console.log("Finding document details", req.params);
+    console.log("my document id" + req.params.documentID)
+    if (req.params && req.params.documentID) {
+        User.findByIdAndUpdate(req.session.userId, {
+            $push: { savedDocuments: req.params.documentID }
+        },
+            { upsert: true },
+            function (err, location) {
+                if (err) return res.status(500).send(err);
+                res.redirect("/saved");
+            }
+        );
+    }
+};
+
+module.exports.getSavedDocument = function (req, res) {
+    User.find({ _id: req.session.userId }).exec(function (err, me) {
+        if (req.session && req.session.userId) {
+            if (!me) {
+                console.log('No such user found!');
+                sendJSONresponse(res, 404, {
+                    message: "User not found!"
+                });
+                return;
+            } else if (err) {
+                console.log(err);
+                sendJSONresponse(res, 404, err);
+                return;
+            }
+            var result = me.map(a => a.savedDocuments)//gives saved documents of users
+            var j;
+            for (j = 0; j < result.length; j++) {
+                docs.find({ _id: result[j] }).exec(function (err, docDetails) {
+                    if (!docDetails) {
+                        console.log('No such document found!');
+                        sendJSONresponse(res, 404, {
+                            message: "Document not found!"
+                        });
+                        return;
+                    } else if (err) {
+                        console.log(err);
+                        sendJSONresponse(res, 404, err);
+                        return;
+                    }
+                    console.log(docDetails)
+                    var typeDoc = docDetails.map(a => a.type);
+                    var dName = docDetails.map(a => a.documentName);
+                    var uploaderid = docDetails.map(a => a.uploader);
+                    var docID = docDetails.map(a => a._id);
+                    var docPath = docDetails.map(a => a.path);
+                    var courseD = docDetails.map(a => a.course);
+
+                    res.render('SavedDocuments', {
+                        saved: docDetails,
+                        userID: req.session.userId,
+                        
+                    });
+
+                });
+
+            }
+        }
+        else {
+            console.log("No User Found!");
+            var err = new Error("User not found.");
+            err.status = 401;
+            res.redirect("/");
+        }
+    });
+
+};
