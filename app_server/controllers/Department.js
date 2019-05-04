@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var dept = mongoose.model("Departments");
 var univ = mongoose.model("Universities");
 
+
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
     res.json(content);
@@ -40,9 +41,9 @@ module.exports.getDepartment = function (req, res) {
         for (i = 0; i < result.length; i++) {
         dept.find({ _id: result[i] }).exec(function (err, univDept) {
           if (!univDept) {
-            console.log('no such department found');
+            console.log('No such department found');
             sendJSONresponse(res, 404, {
-              message: "univ not found"
+              message: "Department not found"
             });
             return;
           } else if (err) {
@@ -55,6 +56,7 @@ module.exports.getDepartment = function (req, res) {
               userID:req.session.userId
             }
       );
+     // sendJSONresponse(res, 200, {code:"200",userID:req.session.userID,universityDepartments:univDept});
 
           });}
         });

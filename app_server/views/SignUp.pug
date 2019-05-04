@@ -16,7 +16,6 @@ html(lang='en')
     link(href='/css/stylish-portfolio.min.css', rel='stylesheet')
     style.
       .backgroundRest{
-      /*background-image: url('img/Influenza.jpg');*/
       background-attachment:fixed;
       background-repeat: no-repeat;
       background:url('img/bb3.jpg');
@@ -84,12 +83,21 @@ html(lang='en')
                       h6(align='left') UNIVERSITY NAME:
                       .input-group.mb-3
                         .input-group-prepend
-                      input.form-control(name='universityName',type='text', placeholder='Enter your university name', aria-label='University Name', aria-describedby='basic-addon1') 
+                      select.form-control#uniName(name='universityName')
+                        option(disabled='', selected='')  Select University..
+                        -var index=0;
+                        each entry in saarayUnis
+                          option(value=entry._id, name='universityName') 
+                            =entry.universityName
+                        -index++;
+                      //-input.form-control(name='universityName',type='text', placeholder='Enter your university name', aria-label='University Name', aria-describedby='basic-addon1') 
                   .form-group(style='color:white')
                       h6(align='left') DEPARTMENT NAME:
                       .input-group.mb-3
                         .input-group-prepend
-                      input.form-control(name='departmentName',type='text', placeholder='Enter your department name', aria-label='Department Name', aria-describedby='basic-addon1')
+                      select.form-control#deptName(name='departmentName')
+                        option(disabled='', selected='')  Select Department..
+                      //-input.form-control(name='departmentName',type='text', placeholder='Enter your department name', aria-label='Department Name', aria-describedby='basic-addon1')
                   .form-group(style='color:white')
                       h6(align='left') ROLL NUMBER:
                       .input-group.mb-3
@@ -116,8 +124,7 @@ html(lang='en')
                       br
                       br
                       input.btn-primary.btn-xl.js-scroll-trigger(id='sub', type='submit', name='submit',value='REGISTER',style="color:white")
-                  //- input#upload(type='submit',name='submit',value='Register')
-                  //- a#uploadMyFile1.btn.btn-primary.btn-xl.js-scroll-trigger(href='') Create Account 
+                 
 
       .overlay
     

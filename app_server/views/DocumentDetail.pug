@@ -12,8 +12,8 @@ html(lang='en')
     link(href='/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
     link(href='/vendor/simple-line-icons/css/simple-line-icons.css', rel='stylesheet')
-   
     link(href='/css/stylish-portfolio.min.css', rel='stylesheet')
+    
     style.
       .backgroundRest{
       background-attachment:fixed;
@@ -29,7 +29,7 @@ html(lang='en')
         box-sizing: border-box;
       }   
      #myInput {
-     background-image: url('/img/search.png');
+     background-image: url('img/search.png');
      background-position: 10px 12px;
      background-repeat: no-repeat;
      width: 100%;
@@ -38,31 +38,6 @@ html(lang='en')
      border: 1px solid #ddd;
      margin-bottom: 12px;
      }
-     ul.breadcrumb {
-      padding: 10px 16px;
-      list-style: none;
-      background-color: black;
-      opacity: 0.4;
-     }
-      ul.breadcrumb li {
-      display: inline;
-      font-size: 18px;
-      color: white;
-     }
-     ul.breadcrumb li+li:before {
-      padding: 8px;
-      color: white;
-      content: "/\00a0";
-     }
-     ul.breadcrumb li a {
-      color: #0275d8;
-      text-decoration: none;
-     }
-     ul.breadcrumb li a:hover {
-      color: #42b9f4;
-      text-decoration: underline;
-     }
-
 
     script.
         function myFunction() {
@@ -84,10 +59,10 @@ html(lang='en')
   body#page-top.backgroundRest
     nav.navbar.fixed-top.navbar-expand-lg.navbar-light.bg-dark.fixed-top
       .container
-        a.navbar-brand.js-scroll-trigger(href='/university')
+        a.navbar-brand.js-scroll-trigger(href='#page-top')
           img.img-fluid.rounded-circle(src='/img/logo32.png', alt='EduGuide Logo')
         b
-          a.navbar-brand.js-scroll-trigger(href='/university') EDUGUIDE
+          a.navbar-brand.js-scroll-trigger(href='#page-top') EDUGUIDE
         button.navbar-toggler.navbar-toggler-right(style="color:white",type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
           span.navbar-toggler-icon
         #navbarResponsive.collapse.navbar-collapse
@@ -100,8 +75,9 @@ html(lang='en')
                 a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | DOCUMENTS
                 .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdownPortfolio')
-                  a.dropdown-item(href='/upload') UPLOAD
+                  a.dropdown-item(href='/upload') UPLOAD 
                   a.dropdown-item(href='/saved') SAVED 
+                  
             li.nav-item.dropdown
               b
                 a#navbarDropdownBlog.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -116,36 +92,40 @@ html(lang='en')
     section#portfolio.content-section
       .container
         .content-section-heading.text-center
-          h1.mb-1(style="color:white;display:inline-block") COURSES
+          h1.mb-1(style="color:white;display:inline-block")
+            = documentName
           br
           br
-          ul.breadcrumb
-            li
-              a(href='/university') UNIVERSITY
-            li
-              a(href="/university/"+ uniID + "/department") DEPARTMENT
-            li COURSES
           
-          input#myInput(type='text', onkeyup='myFunction()', placeholder='Enter Course', title='Type in a name')
-          br
-          br
-
-        #searchThis.row.no-gutters
-          -var index=0;
-          each entry in universityCourses
-            .col-lg-12
-              a.portfolio-item(href="/university/"+ entry.university + "/department/" + entry.department + "/course/" + entry._id)
-                span.caption
-                  span.caption-content
-                    h1
-                      b
-                        =entry.courseName
-                    p.mb-0 CODE: 
-                      |  
-                      =entry.code
-                img.img-fluid.rounded.mx-auto.d-block(src="/images/"+entry.picture, alt='')
+        .row
+            .col-md-8
+                img.img-fluid(src=path, alt='')
                 br
-          -index++;
+            .col-md-4
+                h6.my-3(style="color:#ffe6ff") TYPE: 
+                  span(style="color:white")
+                    = type        
+                
+                h6.my-3(style="color:#ffe6ff") UPLOADER ID: 
+                  span(style="color:white")
+                    = uploaderID          
+                
+                h6.my-3(style="color:#ffe6ff") UPLOADER: 
+                  span(style="color:white")
+                    = uploader     
+
+                h6.my-3(style="color:#ffe6ff") UNIVERSITY: 
+                  span(style="color:white")
+                    = universityName
+                
+                h6.my-3(style="color:#ffe6ff") DEPARTMENT: 
+                  span(style="color:white")
+                    = departmentName      
+
+                h6.my-3(style="color:#ffe6ff") COURSE: 
+                  span(style="color:white")
+                    = courseName       
+                       
           
     section#contact.map
       iframe(width='100%', height='100%', frameborder='0', scrolling='no', marginheight='0', marginwidth='0', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.5690695956723!2d74.30183217906031!3d31.48103838708532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903f08ebc7e8b%3A0x47e934f4cd34790!2sFAST+NUCES!5e0!3m2!1sen!2s!4v1555166192960!5m2!1sen!2s')
@@ -172,4 +152,5 @@ html(lang='en')
     script(src='/vendor/jquery/jquery.min.js')
     script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
     script(src='/vendor/jquery-easing/jquery.easing.min.js')
+    script(src='/SearchBar.js')
     script(src='/js/stylish-portfolio.min.js')

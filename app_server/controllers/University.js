@@ -39,6 +39,5 @@ module.exports.getUniversity = function (req, res) {
                 sendJSONresponse(res, 404, err);
                 return;
             }
-        }
-    );
+        });
 }

@@ -37,9 +37,7 @@ module.exports.getCourse = function (req, res) {
                 //    sendJSONresponse(res, 404, err);
                 return;
             }
-            // var result = currentUniv.map(a => a.departments)//gives departments in university
-            // var i;
-            // for (i = 0; i < result.length; i++) {
+            
             dept.find({ _id: req.params.departmentid }).exec(function (err, univDept) {
                 if (!univDept) {
                     console.log('no such univ found');
@@ -77,8 +75,6 @@ module.exports.getCourse = function (req, res) {
                 }
 
             });
-            //  }
-
         });
 
     } else {

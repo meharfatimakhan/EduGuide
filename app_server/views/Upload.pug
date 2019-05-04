@@ -11,9 +11,9 @@ html(lang='en')
     link(href='/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
     link(href='/vendor/simple-line-icons/css/simple-line-icons.css', rel='stylesheet')
+   
+    
     link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
-    script.
-      var i=0;
     style.
       .backgroundRest{
       background-attachment:fixed;
@@ -51,7 +51,6 @@ html(lang='en')
      #upload{
          display:none;
      }
-
   body#page-top.backgroundRest
     nav.navbar.fixed-top.navbar-expand-lg.navbar-light.bg-dark.fixed-top
       .container
@@ -87,59 +86,47 @@ html(lang='en')
     br
     .container
       .content-section-heading.text-center
-        h1.mb-1(style="color:white;display:inline-block") EDIT PROFILE
+        h1.mb-1(style="color:white;display:inline-block") UPLOAD DOCUMENT
       br
     .main
       section.signup
         .container
           .signup-content
-            form#signup-form.signup-form(role='form', method='post',action='/edit?_method=put',enctype='multipart/form-data')
+            form#signup-form.signup-form(role='form', method='post',action='/upload',enctype='multipart/form-data')
               h2.form-title 
-              br
-              br
               .form-group(align='center')
-                .mydiv
-                  img.rounded-circle.img-fluid.mx-auto( src=displayPicture, alt='avatar')
                 br
-                h6(style='color:white') Upload a different photo:
-                input#upload(name='profilePicture',type='file')
-                a#uploadMyFile1.form-submit(href='') UPLOAD
+                input#upload(name='docPicture',type='file')
+                a#uploadMyFile1.form-submit(href='') UPLOAD PICTURE
                 br
                 br
               .form-group
-                h6 USERNAME:
-                input#name.form-input(value=currentUser, readonly='',type='text', name='username', placeholder='Your Username')
+                h6 Document Name:
+                input#name.form-input(type='text', name='documentName', placeholder='Enter name of document')
               .form-group
-                h6 FULL NAME:
-                input#name.form-input(type='text', value=currentName, name='fullName', placeholder='Your Full Name')
-              .form-group
-                h6 UNIVERSITY NAME:
-                select.form-input#uniNamee(name='universityName')
+                h6 Course Name:
+                select.form-input#uniNamee(name='courseName')
                   -var index=0;
-                  each entry in saarayUnis
-                    option(selected=(currentUniversity.toString() == entry._id.toString()),value=entry._id, name='universityName') #{entry.universityName}
+                  each entry in saarayCourse
+                    option(value=entry._id, name='courseName') #{entry.courseName}
                   -index++;
               .form-group
-                h6 DEPARTMENT NAME:
-                select.form-input#deptName(name='departmentName')
-                  -var index2=0;
-                  each entry in saarayDepts
-                    option(selected=(entry._id.toString() == currentDepartment.toString()),value=entry._id, name='departmentName') #{entry.departmentName}
-                  -index2++;
+                h6 Type:
+                select.form-input(name='type')
+                    option(value='Quiz') Quiz
+                    option(value='Assignment') Assignment
+                    option(value='Past Paper') Past Paper    
               .form-group
-                h6 ROLL NUMBER:
-                input#name.form-input(type='text', value=currentRollNumber, name='rollNumber', placeholder='Your Roll Number')
+                h6 Uploader:
+                input#name.form-input(type='text', readonly='', value=uploader, name='uploaderName')
               .form-group
-                h6 BATCH:
-                input#name.form-input(type='text', value=currentBatch, name='batch', placeholder='Your Batch Year')
+                h6 University Name:
+                input#name.form-input(type='text',readonly='', value=universityName.toString(), name='universityName')
               .form-group
-                h6 PASSWORD:  
-                input#password.form-input(type='password', name='password1', placeholder='Password')
+                h6 Department Name:
+                input#name.form-input(type='text',readonly='', value=departmentName.toString(), name='departmentName')
               .form-group
-                h6 CONFIRM PASSWORD:
-                input#re_password.form-input(type='password', name='password2',placeholder='Repeat Your Password')
-              .form-group
-                input#submit.form-submit(value='UPDATE', type='submit',name='submit')
+                input#submit.form-submit(value='UPLOAD DOCUMENT', type='submit',name='submit')
  
     
     a.scroll-to-top.rounded.js-scroll-trigger(href='#page-top')

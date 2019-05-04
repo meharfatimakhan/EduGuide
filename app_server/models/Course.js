@@ -6,9 +6,7 @@ var courseSchema = new mongoose.Schema({
   code: { type: String, required: true },
   department: { type: String },
   university: { type: String },
-  quizzes: { type: [String] },
-  assignments: { type: [String] },
-  pastPapers: { type: [String] },
+  documents: { type: [String] },
   picture: { type: String },
 });
 

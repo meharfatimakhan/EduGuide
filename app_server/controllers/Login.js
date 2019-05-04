@@ -2,8 +2,9 @@ var mongoose = require("mongoose");
 var User = mongoose.model("User");
 
 var sendJSONresponse = function (res, status, content) {
-  res.status(status);
-  res.json(content);
+  res.status(status)
+  res.json(content)
+  return;
 };
 
 module.exports.loginCredentials = function (req, res) {
@@ -24,7 +25,9 @@ module.exports.doLogIn = function (req, res) {
       if (error || !user) {
         var err = new Error("Wrong username or password.");
         err.status = 401;
-        sendJSONresponse(res, 401, err);
+        sendJSONresponse(res, 401, {
+          code: "401", message: "Wrong username or password."
+        });
       } else {
 
         console.log(user);
@@ -44,32 +47,30 @@ module.exports.doLogIn = function (req, res) {
         console.log("User session picture assigned: " + req.session.profilePic);
         module.exports = UDP;
 
-        req.session.universityName=user.universityName;
+        req.session.universityName = user.universityName;
         req.session.fullName = user.fullName;
-        req.session.departmentName=user.departmentName;
-        req.session.rollNumber=user.rollNumber;
-        req.session.batch=user.batch;
-        
+        req.session.departmentName = user.departmentName;
+        req.session.rollNumber = user.rollNumber;
+        req.session.batch = user.batch;
+
         console.log("User session id assigned: " + req.session.userId);
-      
+      //  res.json({ username: 'Flavio' })
         req.flash('Success!', 'You can login!');
         // req.params.userName=req.session.userName;
         console.log("Logger's name: " + req.session.userName)
+        //sendJSONresponse(res, 200, user);
         res.location('/university');
         res.redirect('/university');
-        //sendJSONresponse(res, 200, user);
-
-
       }
-
     });
 
   } else {
     var err = new Error("All fields required.");
     err.status = 400;
+    //res.json("All fields required.")
 
     res.redirect("/");
-    sendJSONresponse(res, 400, err);
+    //sendJSONresponse(res, 400, { code: "400", message: "All fields required." });
   }
 };
 

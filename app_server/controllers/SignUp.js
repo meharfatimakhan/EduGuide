@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var User = mongoose.model("User");
+var university = mongoose.model('Universities');
+var dept = mongoose.model("Departments");
 var bcrypt = require('bcryptjs');
 
 var sendJSONresponse = function (res, status, content) {
@@ -8,7 +10,21 @@ var sendJSONresponse = function (res, status, content) {
 };
 
 module.exports.signUp = function (req, res) {
-    res.render('SignUp');
+    university.find().exec(function (err, allUniversities) {
+        console.log("length" + allUniversities.length)
+        if (allUniversities) {
+            res.render('SignUp',
+                {
+                    saarayUnis: allUniversities
+                }
+            );
+        }
+        else {
+            console.log(err);
+            sendJSONresponse(res, 404, err);
+            return;
+        }
+    });
 }
 
 module.exports.createAccount = function (req, res) {
@@ -56,20 +72,19 @@ module.exports.createAccount = function (req, res) {
 
     var errors = req.validationErrors();
     if (errors) {
-        //console.log('Errors');
         res.render('SignUp',
             {
                 errors: errors
             });
     }
     else {
+
         var newUser = new User();
         newUser.username = username;
         newUser.password = password;
         newUser.fullName = fullName;
         newUser.universityName = universityName;
         newUser.profilePicture = profilePicture;
-        
         newUser.departmentName = departmentName;
         newUser.rollNumber = rollNumber;
         newUser.batch = batch;
@@ -91,7 +106,6 @@ module.exports.createAccount = function (req, res) {
         res.location('/');
         res.redirect('/');
     }
-
 };
 
 module.exports.validatingUserName = function (req, res) {
@@ -106,7 +120,7 @@ module.exports.validatingUserName = function (req, res) {
         } else if (!user || user === undefined || user.length <= 0) {
             //var err = new Error("User not found.");
             //err.status = 401;
-            res.json(null);
+            res.json("User not found.");
         }
         else {
             console.log("Finding User: " + user);
@@ -114,3 +128,40 @@ module.exports.validatingUserName = function (req, res) {
         }
     })
 }
+
+module.exports.displayDept = function (req, res) {
+    console.log(req.session.userName);
+    dept.find({ departmentName: req.params.deptName }).exec(function (err, myDept) {
+        if (err) {
+            console.log("Error in getting value");
+            return;
+        } else if (!myDept) {
+            var err = new Error("Dept not found.");
+            err.status = 401;
+            return;
+        }
+        else {
+            console.log("Finding department" + myDept);
+            res.json(myDept);
+        }
+    })
+}
+
+module.exports.getDepartment = function (req, res) {
+    var selecteduni = req.params.uniID;
+    console.log(selecteduni + "Selected University")
+    dept.find({ university: selecteduni }).exec(function (err, myDept) {
+        if (err) {
+            console.log("Error in getting value");
+            return;
+        } else if (!myDept) {
+            var err = new Error("Dept not found.");
+            err.status = 401;
+            return;
+        }
+        else {
+            console.log("Finding department" + myDept);
+            res.json(myDept);
+        }
+    })
+};

@@ -17,7 +17,6 @@ var request = require('request');
 var db= require("./app_server/models/db");
 var MongoStore = require("connect-mongo")(session);
 var methodOverride = require('method-override');
-var fileUpload=require('express-fileupload');
 
 
 //var db=require('./app_server/models/db');
@@ -40,8 +39,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(methodOverride())
-app.use(fileUpload());
+app.use(methodOverride());
 
 
 app.use(
@@ -77,7 +75,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/signUp', usersRouter);
 //app.use("/api", routesApi);
 
 // catch 404 and forward to error handler

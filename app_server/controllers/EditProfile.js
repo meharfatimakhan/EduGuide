@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var User = mongoose.model("User");
+var university = mongoose.model('Universities');
+var department = mongoose.model("Departments");
 
 var bcrypt = require('bcryptjs');
 
@@ -9,17 +11,47 @@ var sendJSONresponse = function (res, status, content) {
 };
 
 module.exports.edit = function (req, res) {
-
-    res.render('EditProfile', {
-        displayPicture: "/images/" + req.session.profilePic,
-        currentUser: req.session.userName,
-        currentUniversity: req.session.universityName,
-        currentName: req.session.fullName,
-        currentDepartment: req.session.departmentName,
-        currentRollNumber: req.session.rollNumber,
-        currentBatch: req.session.batch,
-        userID: req.session.userId
-    })
+    university.find().exec(function (err, allUnis) {
+        university.find({ _id: req.session.universityName }).exec(function (err, myUni) {
+            console.log("length" + myUni.length)
+            if (myUni) {
+                var result = myUni.map(a => a.departments)
+                var i;
+                for (i = 0; i < result.length; i++) {
+                    department.find({ _id: result[i] }).exec(function (err, myDept) {
+                        console.log("deptlength " + myDept.length)
+                        if (myDept) {
+                            var idOfUni = myUni.map(a => a._id);
+                            var idOfDept = myDept.map(a => a._id);
+                            console.log(idOfUni + " " + idOfDept);
+                            res.render('EditProfile', {
+                                displayPicture: "/images/" + req.session.profilePic,
+                                currentUser: req.session.userName,
+                                currentUniversity: idOfUni,
+                                currentDepartment: req.session.departmentName,
+                                currentName: req.session.fullName,
+                                currentRollNumber: req.session.rollNumber,
+                                currentBatch: req.session.batch,
+                                userID: req.session.userId,
+                                saarayUnis: allUnis,
+                                saarayDepts: myDept
+                            });
+                        }
+                        else {
+                            console.log(err);
+                            sendJSONresponse(res, 404, err);
+                            return;
+                        }
+                    });
+                }
+            }
+            else {
+                console.log(err);
+                sendJSONresponse(res, 404, err);
+                return;
+            }
+        });
+    });
 }
 
 module.exports.updateProfile = function (req, res) {
@@ -46,7 +78,6 @@ module.exports.updateProfile = function (req, res) {
             user.universityName = req.body.universityName;
             user.batch = req.body.batch;
             user.departmentName = req.body.departmentName;
-            //user.profilePicture = req.file.filename;
             console.log("fsd" + user)
             console.log(req.body.password1 + "asdfghj");
 
@@ -66,7 +97,6 @@ module.exports.updateProfile = function (req, res) {
 
             var errors = req.validationErrors();
             if (errors) {
-                //console.log('Errors');
                 res.render('EditProfile',
                     {
                         errors: errors
@@ -79,7 +109,7 @@ module.exports.updateProfile = function (req, res) {
                         if (err) {
                             return next(err);
                         }
-                        console.log("encrypted=" + hash);
+                        console.log("Encrypted=" + hash);
                         user.password = hash;
 
                         user.save(function (err, user) {
@@ -87,20 +117,52 @@ module.exports.updateProfile = function (req, res) {
 
                                 sendJSONresponse(res, 404, err);
                             } else {
+
                                 req.session.universityName = user.universityName;
                                 req.session.departmentName = user.departmentName;
                                 req.session.rollNumber = user.rollNumber;
                                 req.session.batch = user.batch;
                                 req.session.fullName = user.fullName;
-                                res.render("EditProfile", {
-                                    displayPicture: "/images/" + user.profilePicture,
-                                    currentUser: req.session.userName,
-                                    currentName: req.body.fullName,
-                                    currentDepartment: req.body.departmentName,
-                                    currentRollNumber: req.body.rollNumber,
-                                    currentUniversity: req.body.universityName,
-                                    currentBatch: req.body.batch,
-                                    userID: req.session.userId
+                                university.find().exec(function (err, allUnis) {
+                                    university.find({ _id: req.session.universityName }).exec(function (err, myUni) {
+                                        console.log("length" + myUni.length)
+                                        if (myUni) {
+                                            var result = myUni.map(a => a.departments)
+                                            var i;
+                                            for (i = 0; i < result.length; i++) {
+                                                department.find({ _id: result[i] }).exec(function (err, myDept) {
+                                                    console.log("deptlength " + myDept.length)
+                                                    if (myDept) {
+                                                        var idOfUni = myUni.map(a => a._id);
+                                                        var idOfDept = myDept.map(a => a._id);
+                                                        console.log(idOfUni + " " + idOfDept);
+                                                        res.render("EditProfile", {
+                                                            displayPicture: "/images/" + user.profilePicture,
+                                                            currentUser: req.session.userName,
+                                                            currentName: req.body.fullName,
+                                                            currentDepartment: idOfDept,
+                                                            currentRollNumber: req.session.rollNumber,
+                                                            currentUniversity: idOfUni,
+                                                            currentBatch: req.session.batch,
+                                                            saarayUnis: allUnis,
+                                                            userID: req.session.userId,
+                                                            saarayDepts: myDept
+                                                        });
+                                                    }
+                                                    else {
+                                                        console.log(err);
+                                                        sendJSONresponse(res, 404, err);
+                                                        return;
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        else {
+                                            console.log(err);
+                                            sendJSONresponse(res, 404, err);
+                                            return;
+                                        }
+                                    });
                                 });
                                 //sendJSONresponse(res, 200, user);
                             }
@@ -118,15 +180,46 @@ module.exports.updateProfile = function (req, res) {
                             req.session.rollNumber = user.rollNumber;
                             req.session.batch = user.batch;
                             req.session.fullName = user.fullName;
-                            res.render("EditProfile", {
-                                displayPicture: "/images/" + user.profilePicture,
-                                currentUser: req.session.userName,
-                                currentName: req.body.fullName,
-                                currentDepartment: req.body.departmentName,
-                                currentUniversity: req.body.universityName,
-                                currentRollNumber: req.body.rollNumber,
-                                currentBatch: req.body.batch,
-                                userID: req.session.userId
+                            university.find().exec(function (err, allUnis) {
+                                university.find({ _id: req.session.universityName }).exec(function (err, myUni) {
+                                    console.log("length" + myUni.length)
+                                    if (myUni) {
+                                        var result = myUni.map(a => a.departments)
+                                        var i;
+                                        for (i = 0; i < result.length; i++) {
+                                            department.find({ _id: result[i] }).exec(function (err, myDept) {
+                                                console.log("deptlength " + myDept.length)
+                                                if (myDept) {
+                                                    var idOfUni = myUni.map(a => a._id);
+                                                    var idOfDept = myDept.map(a => a._id);
+                                                    console.log(idOfUni + " " + idOfDept);
+                                                    res.render("EditProfile", {
+                                                        displayPicture: "/images/" + user.profilePicture,
+                                                        currentUser: req.session.userName,
+                                                        currentName: req.body.fullName,
+                                                        currentDepartment: idOfDept,
+                                                        currentRollNumber: req.session.rollNumber,
+                                                        currentUniversity: idOfUni,
+                                                        currentBatch: req.session.batch,
+                                                        saarayUnis: allUnis,
+                                                        userID: req.session.userId,
+                                                        saarayDepts: myDept
+                                                    });
+                                                }
+                                                else {
+                                                    console.log(err);
+                                                    sendJSONresponse(res, 404, err);
+                                                    return;
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        console.log(err);
+                                        sendJSONresponse(res, 404, err);
+                                        return;
+                                    }
+                                });
                             });
                             //sendJSONresponse(res, 200, user);
                         }
@@ -137,7 +230,6 @@ module.exports.updateProfile = function (req, res) {
         });
 
 }
-
 module.exports.checkLogin = function requiresLogin(req, res, next) {
 
     if (req.session && req.session.userId) {
@@ -152,6 +244,23 @@ module.exports.checkLogin = function requiresLogin(req, res, next) {
         err.status = 401;
         res.redirect("/");
     }
-
 };
 
+module.exports.getDepartment = function (req, res) {
+    var selecteduni = req.params.uniID;
+    console.log(selecteduni + "Selected University")
+    department.find({ university: selecteduni }).exec(function (err, myDept) {
+        if (err) {
+            console.log("Error in getting value");
+            return;
+        } else if (!myDept) {
+            var err = new Error("Dept not found.");
+            err.status = 401;
+            return;
+        }
+        else {
+            console.log("Finding department" + myDept);
+            res.json(myDept);
+        }
+    })
+};

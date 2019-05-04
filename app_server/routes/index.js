@@ -17,11 +17,13 @@ var router = express.Router();
 
 var ctrlLogin = require("../controllers/Login");
 var ctrlSignUp = require("../controllers/SignUp");
-var ctrlUniversity=require("../controllers/University");
-var ctrlDepartment=require("../controllers/Department");
-var ctrlCourse=require("../controllers/Course");
-var ctrlEditProfile=require("../controllers/EditProfile");
-var ctrlProfile=require("../controllers/Profile");
+var ctrlUniversity = require("../controllers/University");
+var ctrlDepartment = require("../controllers/Department");
+var ctrlCourse = require("../controllers/Course");
+var ctrlEditProfile = require("../controllers/EditProfile");
+var ctrlProfile = require("../controllers/Profile");
+var ctrlUpload = require("../controllers/Upload");
+var ctrlDocument=require("../controllers/Document");
 
 router.get("/", ctrlLogin.loginCredentials);
 router.post("/", ctrlLogin.doLogIn);
@@ -29,19 +31,23 @@ router.get("/logout", ctrlLogin.logout);
 
 router.get("/signup", ctrlSignUp.signUp);
 router.post("/signup", upload.single('profilePicture'), ctrlSignUp.createAccount);
+router.get("/uniName/:uniID/deptName", ctrlSignUp.getDepartment); 
 
-router.get("/university",ctrlUniversity.getUniversity,ctrlUniversity.checkLogin);
+router.get("/university", ctrlUniversity.checkLogin, ctrlUniversity.getUniversity);
+router.get("/university/:universityid/department", ctrlDepartment.checkLogin, ctrlDepartment.getDepartment);
+router.get("/university/:universityid/department/:departmentid/course", ctrlCourse.checkLogin, ctrlCourse.getCourse);
+router.get("/university/:universityid/department/:departmentid/course/:courseid/documents",ctrlDocument.checkLogin,ctrlDocument.getDocument);
+router.get("/document/:documentID",ctrlDocument.checkLogin,ctrlDocument.getDocumentDetail);
 
-router.get("/university/:universityid/department",ctrlDepartment.getDepartment,ctrlDepartment.checkLogin);
 
-router.get("/university/:universityid/department/:departmentid/course",ctrlCourse.getCourse,ctrlCourse.checkLogin);
+router.get("/upload",ctrlUpload.checkLogin,ctrlUpload.uploadPage);
+router.post("/upload",upload.single('docPicture'),ctrlUpload.docCreate);
+router.get("/departName/:deptID/courseName", ctrlUpload.getCourse);
 
-router.get("/university/:universityid/department/:departmentid/course/:courseid",ctrlDocument.getDocument,ctrlDocument.checkLogin);
 
-router.get("/profile/:profileid",ctrlProfile.viewProfile,ctrlProfile.checkLogin);
-
-router.get("/edit", ctrlEditProfile.edit,ctrlEditProfile.checkLogin);
+router.get("/profile/:profileid", ctrlProfile.checkLogin, ctrlProfile.viewProfile);
+router.get("/edit", ctrlEditProfile.checkLogin, ctrlEditProfile.edit);
 router.put("/edit", upload.single('profilePicture'), ctrlEditProfile.updateProfile);
 router.put("/edit?_method=put", upload.single('profilePicture'), ctrlEditProfile.updateProfile);
-
+router.get("/uniNamee/:uniID/deptName", ctrlEditProfile.getDepartment); 
 module.exports = router;

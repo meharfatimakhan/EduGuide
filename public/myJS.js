@@ -47,14 +47,14 @@ $(document).ready(function () {
 			$(".searchResultCont").hide();
 		}
 	});
-	$('.dropdown-toggle').click(function (){
-		dropDownFixPosition($('button'),$('.dropdown-menu'));
+	$('.dropdown-toggle').click(function () {
+		dropDownFixPosition($('button'), $('.dropdown-menu'));
 	});
-	function dropDownFixPosition(button,dropdown){
-	   var dropDownTop = button.offset().top + button.outerHeight();
-	   dropdown.css('top', dropDownTop + "px");
-	   dropdown.css('left', button.offset().left + "px");
-	 }
+	function dropDownFixPosition(button, dropdown) {
+		var dropDownTop = button.offset().top + button.outerHeight();
+		dropdown.css('top', dropDownTop + "px");
+		dropdown.css('left', button.offset().left + "px");
+	}
 	$("#username").keyup(function (e) {
 		var term = $(this).val();
 		let param = {
@@ -98,11 +98,6 @@ $(document).ready(function () {
 				url: "/findBio",
 				contentType: 'application/json;',
 				dataType: 'json',
-
-				//error: function (xhr, textStatus, errorThrown) {
-				//toastr.error(errorThrown);
-
-				//}
 			}).done(function (result) {
 				console.log(result[0].bio);
 				$(".searchResultCont").show().html(result[0].bio);
@@ -111,5 +106,68 @@ $(document).ready(function () {
 		}
 	});
 
+	$('#uniName').change(function () {
+		var item = $('#uniName').val();
+		console.log(item + "tellme")
+		$.ajax({
+			type: 'GET',
+			data: { university: item },
+			url: '/uniName/' + item + '/deptName',
+			contentType: 'application/json;',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				$('#deptName').empty();
+				$('deptName').append("<option disabled selected> Select Department..</option>");
+				$.each(data, function (index, addressObj) {
+					$('#deptName').append("<option value = '" + addressObj._id + "' > " + addressObj.departmentName + ". </option > ");
+				});
+			}
+		});
+	});
+	// var group = $('#uniNamee').val();
+	// console.log("output"+group)
+	// if (group != '')
+	// 	$("#uniNamee").trigger('change');
+	// //$('option[value="'+ group +'"]').attr('selected', 'selected');​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+	$('#uniNamee').change(function () {
+		var item = $('#uniNamee').val();
+		console.log(item + "tellme")
+		$.ajax({
+			type: 'GET',
+			data: { university: item },
+			url: '/uniNamee/' + item + '/deptName',
+			contentType: 'application/json;',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				$('#deptName').empty();
+				$('deptName').append("<option disabled selected> Select Department..</option>");
+				$.each(data, function (index, addressObj) {
+					$('#deptName').append("<option value = '" + addressObj._id + "' > " + addressObj.departmentName + ". </option > ");
+				});
+			}
+		});
+	});
+
+	$('#departName').change(function () {
+		var item = $('#departName').val();
+		console.log(item + "tellme")
+		$.ajax({
+			type: 'GET',
+			data: { department: item },
+			url: '/departName/' + item + '/courseName',
+			contentType: 'application/json;',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				$('#courseName').empty();
+				$('courseName').append("<option disabled selected> Select Course..</option>");
+				$.each(data, function (index, addressObj) {
+					$('#courseName').append("<option value = '" + addressObj._id + "' > " + addressObj.courseName + ". </option > ");
+				});
+			}
+		});
+	});
 });
 
