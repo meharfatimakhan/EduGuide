@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var User = mongoose.model("User");
+var universityDatabase = mongoose.model('Universities');
 
 var sendJSONresponse = function (res, status, content) {
   res.status(status)
@@ -8,7 +9,15 @@ var sendJSONresponse = function (res, status, content) {
 };
 
 module.exports.loginCredentials = function (req, res) {
-  res.render('Login');
+  console.log(JSON.stringify(req.headers));
+  // "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0"
+  if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+    sendJSONresponse(res, 200, {
+      code: "200", message: "Log in page loaded!"
+    });
+  } else {
+    res.render('Login');
+  }
 };
 
 module.exports.loginCheck = function (req, res) {
@@ -16,18 +25,20 @@ module.exports.loginCheck = function (req, res) {
   res.redirect('/university');
 };
 
-
 module.exports.doLogIn = function (req, res) {
 
   if (req.body.username && req.body.password) {
-
     User.authenticate(req.body.username, req.body.password, function (error, user) {
       if (error || !user) {
         var err = new Error("Wrong username or password.");
         err.status = 401;
-        sendJSONresponse(res, 401, {
-          code: "401", message: "Wrong username or password."
-        });
+        if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+          sendJSONresponse(res, 401, {
+            code: "401", message: "Wrong username or password."
+          });
+        } else {
+          res.render('error', { message: "Wrong username or password.", status: 401 });
+        }
       } else {
 
         console.log(user);
@@ -54,32 +65,61 @@ module.exports.doLogIn = function (req, res) {
         req.session.batch = user.batch;
 
         console.log("User session id assigned: " + req.session.userId);
-      //  res.json({ username: 'Flavio' })
         req.flash('Success!', 'You can login!');
-        // req.params.userName=req.session.userName;
-        console.log("Logger's name: " + req.session.userName)
-        //sendJSONresponse(res, 200, user);
-        res.location('/university');
-        res.redirect('/university');
+        console.log("Logger's name: " + req.session.userName);
+
+        universityDatabase.find().exec(function (err, allUniversities) {
+          console.log("length" + allUniversities.length)
+          if (allUniversities) {
+            if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+              sendJSONresponse(res, 200, {
+                code: "200", message: "Logged in.", token: req.session.userId, universities: allUniversities
+              });
+            } else {
+              res.location('/university');
+              res.redirect('/university');
+            }
+          }
+          else {
+            console.log(err);
+            if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+              sendJSONresponse(res, 200, {
+                code: "404", message: "Universities not found!"
+              });
+            } else {
+              res.render('error', { message: "University not found!.", status: 404 });
+              return;
+            }
+          }
+        });
       }
     });
-
   } else {
     var err = new Error("All fields required.");
     err.status = 400;
-    //res.json("All fields required.")
-
-    res.redirect("/");
-    //sendJSONresponse(res, 400, { code: "400", message: "All fields required." });
+    if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+      sendJSONresponse(res, 400, {
+        code: "400", message: "All Fields Required!"
+      });
+    } else {
+      res.redirect("/");
+      return;
+    }
   }
 };
 
 module.exports.logout = function (req, res) {
   if (req.session) {
     console.log("Destroying session " + req.session.userId + " and " + req.session.userName);
-    // delete session object
-    req.session.destroy();
+    req.session.destroy(); // delete session object
     res.locals.user = undefined;
-    res.redirect("/");
+    if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+      sendJSONresponse(res, 200, {
+        code: "200", message: "Logged Out!"
+      });
+    } else {
+      res.redirect("/");
+      return;
+    }
   }
 };

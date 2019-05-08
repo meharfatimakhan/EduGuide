@@ -28,6 +28,26 @@ html(lang='en')
       background-color: black;
       opacity: 0.5;
       }
+    script.
+      function myFunction() {
+      var x, text;
+      x = document.getElementById("upload").value;
+      if (x="") {
+        text = "Upload Image!";
+      } else {
+        text = "Upload Image!";
+      }
+      document.getElementById("demo").innerHTML = text;
+
+      if (document.getElementById("uniName").selectedIndex == 0) {
+                alert("Please select a university or department!")
+                
+            } else {
+                document.getElementById("sub").submit();
+            }
+     }
+      document.getElementById("uniName").selectedIndex = "0";
+      
   body#page-top.backgroundRest
     nav.navbar.navbar-expand-lg.navbar-light.navbar-custom.fixed-top
       .container 
@@ -68,8 +88,12 @@ html(lang='en')
                     div.alert.alert-danger #{error.msg}
             h6.mb-3
                 br
-                form.form-horizontal(method='post',action='/signup',enctype='multipart/form-data',role='form')
+                form.form-horizontal(method='post',action='/signup',enctype='multipart/form-data',role='form',id='frm')
                   .form-group(style='color:white')
+                      h4(style='color:#4db8ff')
+                        span#checking()
+                        br
+                        p
                       h6(align='left') USERNAME:
                       .input-group.mb-3
                         .input-group-prepend
@@ -79,12 +103,13 @@ html(lang='en')
                       .input-group.mb-3
                         .input-group-prepend
                       input.form-control(name='fullName', type='text', placeholder='Enter your full name', aria-label='FullName', aria-describedby='basic-addon1', required='')
+                      
                   .form-group(style='color:white')
                       h6(align='left') UNIVERSITY NAME:
                       .input-group.mb-3
                         .input-group-prepend
                       select.form-control#uniName(name='universityName')
-                        option(disabled='', selected='')  Select University..
+                        option(disabled='', selected='', value='0' required)  Select University..
                         -var index=0;
                         each entry in saarayUnis
                           option(value=entry._id, name='universityName') 
@@ -96,7 +121,7 @@ html(lang='en')
                       .input-group.mb-3
                         .input-group-prepend
                       select.form-control#deptName(name='departmentName')
-                        option(disabled='', selected='')  Select Department..
+                        option(disabled='', selected='',value='0' required)  Select Department..
                       //-input.form-control(name='departmentName',type='text', placeholder='Enter your department name', aria-label='Department Name', aria-describedby='basic-addon1')
                   .form-group(style='color:white')
                       h6(align='left') ROLL NUMBER:
@@ -112,57 +137,27 @@ html(lang='en')
                       h6(align='left') PASSWORD:
                       .input-group.mb-3
                         .input-group-prepend
-                      input.form-control(name='password', minlength=5,type='password', placeholder='Enter Password', aria-label='Password', aria-describedby='basic-addon1', required='')
+                      input.form-control(id= 'password', name='password', minlength=5,type='password', placeholder='Enter Password', aria-label='Password', aria-describedby='basic-addon1', required='')
                   .form-group(style='color:white')
                       h6(align='left') CONFIRM PASSWORD:
                       .input-group.mb-3
                         .input-group-prepend
-                      input.form-control(name='confirmPassword', minlength=5, type='password', placeholder='Confirm Password', aria-label='Confirm Password', aria-describedby='basic-addon1', required='')
+                      input.form-control(id='confirmPassword',name='confirmPassword', minlength=5, type='password', placeholder='Confirm Password', aria-label='Confirm Password', aria-describedby='basic-addon1', required='')
+                      h4
+                        span#message
+
                   .form-group
-                      input#upload(name='profilePicture',type='file',accept="image/*")
+                      input#upload(name='profilePicture',type='file',accept="image/*" required)
                       a#uploadMyFile1.btn.btn-primary.btn-xl.js-scroll-trigger(href='') UPLOAD
+                      h5
+                        span#demo
                       br
                       br
-                      input.btn-primary.btn-xl.js-scroll-trigger(id='sub', type='submit', name='submit',value='REGISTER',style="color:white")
+                      input.btn-primary.btn-xl.js-scroll-trigger(id='sub', type='submit',disabled='', name='submit',value='REGISTER',style="color:white",onclick="myFunction()")
                  
 
       .overlay
     
-    section#services.content-section.bg-primary.text-white.text-center
-      .container
-        .content-section-heading
-          h3.text-secondary.mb-0 Services
-          h2.mb-5 Tailored Just For You
-        .row
-          
-          .col-lg-3.col-md-6.mb-5.mb-lg-0
-            span.service-icon.rounded-circle.mx-auto.mb-3
-              i.icon-pencil
-            h4
-              strong Guide
-            p.text-faded.mb-0 Your guide to every resource!
-
-          .col-lg-3.col-md-6.mb-5.mb-lg-0
-            span.service-icon.rounded-circle.mx-auto.mb-3
-              i.icon-screen-smartphone
-            h4
-              strong Responsive
-            p.text-faded.mb-0 Looks great on any screen size!
-
-          .col-lg-3.col-md-6
-            span.service-icon.rounded-circle.mx-auto.mb-3
-              i.icon-mustache
-            h4
-              strong Question
-            p.text-faded.mb-0 Ask us!
-
-          .col-lg-3.col-md-6.mb-5.mb-md-0
-            span.service-icon.rounded-circle.mx-auto.mb-3
-              i.icon-like
-            h4
-              strong Favorited
-            p.text-faded.mb-0
-              | 1000+ users!
     
     section#contact.map
       iframe(width='100%', height='100%', frameborder='0', scrolling='no', marginheight='0', marginwidth='0', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.5690695956723!2d74.30183217906031!3d31.48103838708532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903f08ebc7e8b%3A0x47e934f4cd34790!2sFAST+NUCES!5e0!3m2!1sen!2s!4v1555166192960!5m2!1sen!2s')

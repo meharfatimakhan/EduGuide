@@ -108,10 +108,10 @@ html(lang='en')
                 br
               .form-group
                 h6 USERNAME:
-                input#name.form-input(value=currentUser, readonly='',type='text', name='username', placeholder='Your Username')
+                input#name.form-input(value=currentUser, readonly='',type='text', name='username', placeholder='Your Username',required='')
               .form-group
                 h6 FULL NAME:
-                input#name.form-input(type='text', value=currentName, name='fullName', placeholder='Your Full Name')
+                input#name.form-input(type='text', value=currentName, name='fullName', placeholder='Your Full Name',required='')
               .form-group
                 h6 UNIVERSITY NAME:
                 select.form-input#uniNamee(name='universityName')
@@ -128,16 +128,18 @@ html(lang='en')
                   -index2++;
               .form-group
                 h6 ROLL NUMBER:
-                input#name.form-input(type='text', value=currentRollNumber, name='rollNumber', placeholder='Your Roll Number')
+                input#name.form-input(type='text', value=currentRollNumber, name='rollNumber', placeholder='Your Roll Number',,required='')
               .form-group
                 h6 BATCH:
-                input#name.form-input(type='text', value=currentBatch, name='batch', placeholder='Your Batch Year')
+                input#name.form-input(type='text', value=currentBatch, name='batch', placeholder='Your Batch Year',,required='')
               .form-group
                 h6 PASSWORD:  
-                input#password.form-input(type='password', name='password1', placeholder='Password')
+                input#password.form-input(type='password',  name='password1', placeholder='Password')
               .form-group
                 h6 CONFIRM PASSWORD:
-                input#re_password.form-input(type='password', name='password2',placeholder='Repeat Your Password')
+                input#re_password.form-input(type='password',name='password2',placeholder='Repeat Your Password')
+                h4
+                  span#message
               .form-group
                 input#submit.form-submit(value='UPDATE', type='submit',name='submit')
  

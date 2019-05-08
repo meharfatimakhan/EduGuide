@@ -20,8 +20,14 @@ module.exports.checkLogin = function requiresLogin(req, res, next) {
   } else {
     console.log("No Session Active");
     var err = new Error("You must be logged in to view this page.");
-    err.status = 401;
-    res.redirect("/");
+    err.status = 600;
+    if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+      sendJSONresponse(res, 600, {
+        code: "600", message: "You must be logged in to view this page!"
+      });
+    } else {
+      res.redirect("/");
+    }
   }
 
 };
@@ -32,14 +38,22 @@ module.exports.viewProfile = function (req, res) {
   if (req.params && req.params.profileid) {
     User.findById(req.params.profileid).exec(function (err, myProfile) {
       if (!myProfile) {
-        sendJSONresponse(res, 404, {
-          message: "ProfileID not found!"
-        });
-        return;
+        if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+          sendJSONresponse(res, 404, {
+            code: "404", message: "Profile id not found!"
+          });
+        } else {
+          res.render('error', { message: "Profile id not found!", status: 404 });
+        }
       } else if (err) {
         console.log(err);
-        sendJSONresponse(res, 404, err);
-        return;
+        if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+          sendJSONresponse(res, 404, {
+            code: "404", message: "An error occured!"
+          });
+        } else {
+          res.render('error', { message: "An error occured!", status: 404 });
+        }
       }
       university.find({ _id: myProfile.universityName }).exec(function (err, myUni) {
         console.log("length" + myUni.length)
@@ -49,31 +63,75 @@ module.exports.viewProfile = function (req, res) {
             if (myDept) {
 
               document.find({ uploader: req.params.profileid }).exec(function (err, myUploads) {
+                if (!myUploads) {
+                  if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+                    sendJSONresponse(res, 404, {
+                      code: "404", message: "No such document with such user!"
+                    });
+                  } else {
+                    res.render('error', { message: "No such document with such user!", status: 404 });
+                  }
+                }
                 var nameOfUni = myUni.map(a => a.universityName);
                 var nameOfDept = myDept.map(a => a.departmentName);
                 console.log(nameOfUni + " " + nameOfDept);
-                res.render('Profile', {
-                  username: myProfile.username,
-                  displayPicture: "/images/" + myProfile.profilePicture,
-                  universityName: nameOfUni,
-                  departmentName: nameOfDept,
-                  batch: myProfile.batch,
-                  rollNumber: myProfile.rollNumber,
-                  fullName: myProfile.fullName,
-                  userID: req.session.userId,
-                  myUps:myUploads
-                });
+                if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+                  sendJSONresponse(res, 200, {
+                    code: "200", message: "Profile successfully loaded!", token: req.session.userId, username: myProfile.username,
+                    displayPicture: "/images/" + myProfile.profilePicture,
+                    universityName: nameOfUni,
+                    departmentName: nameOfDept,
+                    batch: myProfile.batch,
+                    rollNumber: myProfile.rollNumber,
+                    fullName: myProfile.fullName,
+                    userID: req.session.userId,
+                    myUps: myUploads
+                  });
+                } else {
+                  res.render('Profile', {
+                    username: myProfile.username,
+                    displayPicture: "/images/" + myProfile.profilePicture,
+                    universityName: nameOfUni,
+                    departmentName: nameOfDept,
+                    batch: myProfile.batch,
+                    rollNumber: myProfile.rollNumber,
+                    fullName: myProfile.fullName,
+                    userID: req.session.userId,
+                    myUps: myUploads
+                  });
+                }
               });
             }
-
+            else {
+              if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+                sendJSONresponse(res, 404, {
+                  code: "404", message: "User's Department not found!"
+                });
+              } else {
+                res.render('error', { message: "User's department not found!", status: 404 });
+              }
+            }
           });
+        }
+        else {
+          if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+            sendJSONresponse(res, 404, {
+              code: "404", message: "User's university not found!"
+            });
+          } else {
+            res.render('error', { message: "User's university not found!", status: 404 });
+          }
         }
       });
     });
   } else {
     console.log("No Profileid specified");
-    sendJSONresponse(res, 404, {
-      message: "No Profileid in request"
-    });
+    if (req.header('user-agent') == 'PostmanRuntime/7.11.0') {
+      sendJSONresponse(res, 404, {
+        code: "404", message: "Profile id not found!"
+      });
+    } else {
+      res.render('error', { message: "Profile id not found!", status: 404 });
+    }
   }
 };

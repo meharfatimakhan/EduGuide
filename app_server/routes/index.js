@@ -32,6 +32,7 @@ router.get("/logout", ctrlLogin.logout);
 router.get("/signup", ctrlSignUp.signUp);
 router.post("/signup", upload.single('profilePicture'), ctrlSignUp.createAccount);
 router.get("/uniName/:uniID/deptName", ctrlSignUp.getDepartment); 
+router.get("/checkUser", ctrlSignUp.validatingUserName);
 
 router.get("/university", ctrlUniversity.checkLogin, ctrlUniversity.getUniversity);
 router.get("/university/:universityid/department", ctrlDepartment.checkLogin, ctrlDepartment.getDepartment);

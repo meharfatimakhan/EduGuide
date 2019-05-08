@@ -28,12 +28,7 @@ $(document).ready(function () {
 				url: "/searchMembers",
 				data: param,
 				contentType: 'application/json;',
-				dataType: 'json',
-
-				//error: function (xhr, textStatus, errorThrown) {
-				//toastr.error(errorThrown);
-
-				//}
+				dataType: 'json'
 			}).done(function (result) {
 
 				var list = "";
@@ -69,14 +64,12 @@ $(document).ready(function () {
 				dataType: 'json',
 
 			}).done(function (result) {
-
 				if (result != null) {
-					$("#checking").show().html("This username is already taken");
+					$("#checking").show().html("This username is already taken! <br>");
 				}
 				else {
-					$("#checking").show().html("<br> You can have this username");
+					$("#checking").show().html("<br> You can have this username!");
 					$("#sub").removeAttr('disabled');
-
 				}
 
 			})
@@ -84,14 +77,10 @@ $(document).ready(function () {
 		else {
 			$('#checking').hide();
 		}
-
-
 	})
 
 	$("#work").click(function (e) {
-
 		var term = "abc";
-		//if (term.length > 1) {2
 		{
 			$.ajax({
 				type: "GET",
@@ -125,11 +114,7 @@ $(document).ready(function () {
 			}
 		});
 	});
-	// var group = $('#uniNamee').val();
-	// console.log("output"+group)
-	// if (group != '')
-	// 	$("#uniNamee").trigger('change');
-	// //$('option[value="'+ group +'"]').attr('selected', 'selected');​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+
 	$('#uniNamee').change(function () {
 		var item = $('#uniNamee').val();
 		console.log(item + "tellme")
@@ -168,6 +153,30 @@ $(document).ready(function () {
 				});
 			}
 		});
+	});
+
+	$('#password, #confirmPassword').on('keyup', function () {
+		if ($('#password').val() == $('#confirmPassword').val()) {
+			$('#message').html('Matching').css('color', 'green');
+		} else
+			$('#message').html('Not Matching').css('color', 'red');
+	});
+
+
+
+	$("#frm").submit(function (event) {
+
+		var valDDL = $("#uniName").val();
+		if (valDDL == '0') {
+			event.preventDefault();
+			alert("Select a university and department!");
+		}
+	});
+
+	$('#password, #re_password').on('keyup', function () {
+		if ($('#password').val() == $('#re_password').val()) 
+		{ $('#message').html('Passwords match!').css('color', 'green'); }
+		else $('#message').html('Passwords dont match!').css('color', 'red');
 	});
 });
 

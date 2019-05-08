@@ -1,6 +1,80 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title EduGuide - Your study pal!
+    
+    link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='icon', type='image/ico', href='/img/logo.png')
+    link(href='/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
+    link(href='/vendor/simple-line-icons/css/simple-line-icons.css', rel='stylesheet')
+   
+    link(href='/css/stylish-portfolio.min.css', rel='stylesheet')
+    style.
+      .backgroundRest{
+      background-attachment:fixed;
+      background-repeat: no-repeat;
+      background:url('img/bb3.jpg');
+      }
+      .navbar {
+      overflow: hidden;
+      background-color: black;
+      opacity: 0.5;
+      }
 
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  body#page-top.backgroundRest
+    nav.navbar.navbar-expand-lg.navbar-light.navbar-custom.fixed-top
+      .container 
+        a.navbar-brand.js-scroll-trigger(href='#page-top')
+          img.img-fluid.rounded-circle(src='/img/logo32.png', alt='EduGuide Logo')
+        b
+          a.navbar-brand.js-scroll-trigger(href='#page-top') EDUGUIDE
+        #navbarResponsive.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li.nav-item
+              b
+            li.nav-item
+              b
+                a.nav-link(href='')            
+
+    section#portfolio.content-section
+      .container
+        .content-section-heading.text-center
+          h1.mb-1(style="color:red;display:inline-block") ERROR
+          br
+          br
+          h4.mb-1(style="color:red;display:inline-block")
+            =message
+          br
+          h4.mb-1(style="color:red;display:inline-block") Status Code: 
+            = status
+          
+        //-pre #{error.stack}
+          
+    footer.footer.text-center
+      .container
+        ul.list-inline.mb-5
+          li.list-inline-item
+            a.social-link.rounded-circle.text-white.mr-3(href='https://www.facebook.com/meharfatimakhan4')
+              i.icon-social-facebook
+          li.list-inline-item
+            a.social-link.rounded-circle.text-white.mr-3(href='https://www.instagram.com/meharfatimakhan/?hl=en')
+              i.icon-social-instagram
+          li.list-inline-item
+            a.social-link.rounded-circle.text-white(href='https://github.com/meharfatimakhan')
+              i.icon-social-github
+        p.small.mb-0(style="color:white") Copyright © EduGuide 2019. All Rights Reserved.
+    
+    a.scroll-to-top.rounded.js-scroll-trigger(href='#page-top')
+      i.fas.fa-angle-up
+    
+    script(src='/vendor/jquery/jquery.min.js')
+    script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+   
+    script(src='/vendor/jquery-easing/jquery.easing.min.js')
+
+    script(src='/js/stylish-portfolio.min.js')
